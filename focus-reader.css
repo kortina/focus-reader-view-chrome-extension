@@ -1,0 +1,124 @@
+#readOverlay {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+#readInner {
+	text-align: left;
+	line-height: 1.4em;
+	margin: 1em auto;
+}
+.mobile #readInner {
+	max-width:300px;
+	overflow:hidden;
+}
+#readInner a {
+	color: blue;
+	text-decoration: underline;
+}
+#readInner * {
+	margin-bottom: 16px;
+	border: none;
+	background: none;
+}
+#readInner p {
+	display:block;
+	width:100%;
+	clear:both;
+}
+#readInner img {
+	float: left;
+	margin-right: 12px;
+	margin-bottom: 12px;
+}
+#readInner pre {
+	float:none;
+	width:100%;
+	clear:both;
+	font-family:Monaco,Courier,mono;
+	font-size:14px;
+	line-height:1.4em;
+}
+.mobile #readInner pre code {
+	width:300px;
+	overflow:auto;
+}
+#readInner code {
+}
+#readInner pre ol {
+	list-style:none;
+}
+#readInner h1 {
+	display: block;
+	width: 100%;
+	border-bottom: 1px solid #333;
+	font-size: 1.2em;
+}
+#readInner blockquote {
+	margin:0 !important;
+	font-style:italic;
+}
+#readInner h2,#readInner h3,#readInner h4 {
+	display:block;
+	position:relative;
+	width:100%;
+	clear:both;
+}
+#readFooter {
+	width: 30px;
+	height: 15px;
+	padding:5px;
+	font-size:10px;
+	font-weight:bold;
+	position:fixed;
+	right:0;
+	bottom:0;
+	-webkit-border-radius:5px;
+	border-top: 1px solid #333;
+	text-align: center;
+	background:#333;
+}
+#readFooter a {
+	color:#eee;
+	line-height:1.2em;
+	text-decoration:none;
+	display:block;
+}
+/* Causing problems with BBC 
+th,td {white-space: nowrap !important;padding:2px 5px !important;}
+*/
+/* Size options */
+
+.size-small {
+	font-size: 12px;
+}
+.size-medium {
+	font-size: 18px;
+}
+.size-midlarge {
+	font-size: 20px;
+}
+.size-large {
+	font-size: 26px;
+}
+.size-x-large {
+	font-size: 34px;
+}
+/* Style options */
+
+.style-ebook {
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	background: rgba(0,0,0,0.008); /* almost white */
+	color: rgba(0,0,0,0.8);
+}
+.style-ebook h1 {
+	font-weight: bold;
+}
+/* Margin Options */
+
+.ems {
+  min-width: 25em;
+  max-width: 33em;
+}
