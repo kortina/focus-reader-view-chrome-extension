@@ -192,10 +192,10 @@ function grabArticle() {
 
   // Add the footer and contents:
   articleBanner.id = "focusreader-banner";
-  articleBanner.innerHTML = "<a href='https://kortina.net/'>kortina.net</a>mod of readability";
+  articleBanner.innerHTML = "<a href='https://kortina.net/'>kortina.net</a> mod of readability";
 
   articleContent.appendChild(topDiv);
-  // articleContent.insertBefore(articleBanner, articleContent.firstChild);
+  articleContent.insertBefore(articleBanner, articleContent.firstChild);
   return articleContent;
 }
 

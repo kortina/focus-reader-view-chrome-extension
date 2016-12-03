@@ -67,16 +67,12 @@
 	clear:both;
 }
 #focusreader-banner {
-	height: 15px;
-	padding:5px;
 	font-size:10px;
 	border-bottom: 1px solid #333;
 	text-align: right;
 }
 #focusreader-banner a {
-	color:#eee;
-	text-decoration:none;
-	display:block;
+	color:#333;
 }
 /* Causing problems with BBC 
 th,td {white-space: nowrap !important;padding:2px 5px !important;}
