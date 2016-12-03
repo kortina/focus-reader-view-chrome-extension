@@ -1,109 +1,69 @@
 // content.js has access to DOM
+var FocusReader = {};
+FocusReader.readabilityVersion = "3";
+FocusReader.readStyle='style-ebook';
+FocusReader.readSize='size-large';
+FocusReader.readWidth='ems';
 
 // background.js:chrome.pageAction.onClicked calls this function
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    //console.log("unsubscribe-button:content.js:onRequest");
-    enterFocusReader();
+  FocusReader.enter();
 });
 
-function enterFocusReader() {
-  console.log('enterFocusReader');
+FocusReader.enter = function() {
+  console.log('FocusReader.enter');
   focusReaderMain();
-  return;
-    var topButton = getGmailUnsubscribeTopButton();
-    if (topButton) {
-        console.log("unsubscribe-button:topButton found");
-        clickGmailUnsubscribeButtons(topButton);
-        unsubSuccess();
-    } else {
-        console.log("unsubscribe-button:topButton NOT found");
-        openBestUnsubLinkInEmailBody();
-    }
 }
-
-
-
-
-function causeEventToFire(element, eventType){
-    if (element.fireEvent) {
-        element.fireEvent('on' + eventType);
-    } else {
-        var evObj = document.createEvent('Events');
-        evObj.initEvent(eventType, true, false);
-        element.dispatchEvent(evObj);
-    }
-}
-
-
-
 // Use ctrl+shift+o as a keyboard shortcut you can use instead of clicking
 // button in address bar
-function unsubscribeKeyboardShortcutListener(e) {
-    console.log(e);
-    if (e.ctrlKey && e.shiftKey && e.keyCode ==  79) {
-        enterFocusReader();
-    }
+FocusReader.keyboardShortcutListener = function(e) {
+  if (e.ctrlKey && e.shiftKey && e.keyCode ==  79) {
+    FocusReader.enter();
+  }
 }
 
-function registerFocusReaderShortcutListener(reregister) {
-    console.log('registerFocusReaderShortcutListener');
-    if (!reregister && unsubscribeKeyboardShortcutListener.isSet === true) return;
-    document.addEventListener('keyup', unsubscribeKeyboardShortcutListener, false);
-    unsubscribeKeyboardShortcutListener.isSet = true;
+FocusReader.registerShortcutListener = function(reregister) {
+  // console.log('FocusReader.registerShortcutListener');
+  if (!reregister && FocusReader.keyboardShortcutListener.isSet === true) return;
+  document.addEventListener('keyup', FocusReader.keyboardShortcutListener, false);
+  FocusReader.keyboardShortcutListener.isSet = true;
 }
 
-registerFocusReaderShortcutListener(false);
+FocusReader.registerShortcutListener(false);
 
-var readabilityVersion = "3";
-var readStyle='style-ebook';
-var readSize='size-large';
-var readWidth='ems';
 function focusReaderMain(){
-  // removing all existing scripts so they don't cause conflicts...
-  var docscripts = document.getElementsByTagName('script');
-  for (k=0;k < docscripts.length; k++) {
-    if (docscripts[k].src != null && ! docscripts[k].src.match(/readability|[Cc]lippability/)) {
-      docscripts[k].parentNode.removeChild(docscripts[k]);
+  console.log('focusReaderMain');
+  var scripts = document.getElementsByTagName('script');
+  for (k=0;k < scripts.length; k++) {
+    if (scripts[k].src != null && ! scripts[k].src.match(/readability|[Cc]lippability/)) {
+      scripts[k].parentNode.removeChild(scripts[k]);
     }
   }
 
-  console.log("jauery version");
-  console.log($.fn.jquery);
-
   $('script').each(function(){
-    // jQuery gets scripts inside of conditional comments far more easily than I could figure out
     if (! this.src.match(/readability|[Cc]lippability|jquery\.min\.js$/)) { $(this).remove(); }
   });
 
+  var overlay = document.createElement("div");
+  var inner = document.createElement("div");
+  overlay.id = "readOverlay";
+  inner.id = "readInner";
 
-  var objOverlay = document.createElement("div");
-  var objinnerDiv = document.createElement("div");
+  document.body.className = FocusReader.readStyle;
+  overlay.className = FocusReader.readStyle;
+  inner.className = FocusReader.readWidth + " " + FocusReader.readSize;
 
-  objOverlay.id = "readOverlay";
-  objinnerDiv.id = "readInner";
+  inner.appendChild(grabArticle());
+  overlay.appendChild(inner);
 
-  // Apply user-selected styling:
-  document.body.className = readStyle;
-  objOverlay.className = readStyle;
-  objinnerDiv.className = readWidth + " " + readSize;
-
-  objinnerDiv.appendChild(grabArticle());		// Get the article and place it inside the inner Div
-  objOverlay.appendChild(objinnerDiv);		// Insert the inner div into the overlay
-
-  // For totally hosed HTML, add body node that can't be found because of bad HTML or something.
-  if(document.body == null)
-  {
+  if(document.body == null) {
     body = document.createElement("body");
     document.body = body;
   }
-
   document.body.innerHTML = "";
 
-  // Inserts the new content :
-
-  document.body.insertBefore(objOverlay, document.body.firstChild);
-  var o = document.body.firstChild;
-  return o.innerHTML;
+  document.body.insertBefore(overlay, document.body.firstChild);
+  return document.body.firstChild.innerHTML;
 };
 
 function getElementsByClassName(classname, node)  {
@@ -125,7 +85,7 @@ function grabArticle() {
 
   var articleContent = document.createElement("DIV");
   var articleTitle = document.createElement("H1");
-  var articleFooter = document.createElement("DIV");
+  var articleBanner = document.createElement("DIV");
 
   // Replace all doubled-up <BR> tags with <P> tags, and remove fonts.
   var pattern =  new RegExp ("<br/?>[ \r\n\s]*<br/?>", "g");
@@ -174,7 +134,7 @@ function grabArticle() {
   if(topDiv == null)
   {
     topDiv = document.createElement('div');
-    topDiv.innerHTML = 'Sorry, clippable was unable to parse this page for content. If you feel like it should have been able to, please <a href="http://brettterpstra.com/contact">let us know.</a>';
+    topDiv.innerHTML = 'Focus Reader was unable to parse this page for content. Report issues <a href="https://github.com/kortina/focus-reader-view-chrome-extension/issues">here</a>.';
   }
 
   // REMOVES ALL STYLESHEETS ...
@@ -231,54 +191,13 @@ function grabArticle() {
 
 
   // Add the footer and contents:
-  articleFooter.id = "readFooter";
-  articleFooter.innerHTML = "<a href='https://kortina.net/'>kortina.net</a>mod of readability";
+  articleBanner.id = "focusreader-banner";
+  articleBanner.innerHTML = "<a href='https://kortina.net/'>kortina.net</a>mod of readability";
 
   articleContent.appendChild(topDiv);
-  //	articleContent.appendChild(articleFooter);
-  document.onkeyup = docOnKeyup;
+  // articleContent.insertBefore(articleBanner, articleContent.firstChild);
   return articleContent;
 }
-
-function docOnKeyup(ev)
-{
-  var keyID = null;
-  if (navigator.appName == "Microsoft Internet Explorer") {
-    keyID = event.keyCode;
-  } else {
-    keyID = (window.event) ? event.keyCode : ev.keyCode;
-  }
-  var bgcolor,fgcolor,acolor;
-  switch (keyID) {
-    case 27: // escape
-      document.location.reload(true);
-      break;
-    case 37: // left arrow
-      bgcolor = "#222";
-      fgcolor = "#F3EFCE";
-      acolor = "#A19F89";
-      break;
-    case 39: // right arrow
-      bgcolor = "#fff";
-      fgcolor = "#333";
-      acolor = "#276F78";
-      break;
-    case 46: // delete
-      bgcolor = "#eee";
-      fgcolor = "#333";
-      acolor = "#blue";
-      break;		
-  }
-  body = document.getElementById("readOverlay");
-  // body.className = body.className.replace('/\blightened\b/','') + " darkened";
-  body.style.backgroundColor = bgcolor;
-  body.style.color = fgcolor;
-  var alinks = body.getElementsByTagName('a');
-  for (var lc = 0;lc < alinks.length;lc++) {
-    alinks[lc].style.color = acolor;
-  }	
-}
-
 
 // Get the inner text of a node - cross browser compatibly.
 function getInnerText(e) {

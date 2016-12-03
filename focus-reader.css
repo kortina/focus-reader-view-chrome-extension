@@ -66,23 +66,15 @@
 	width:100%;
 	clear:both;
 }
-#readFooter {
-	width: 30px;
+#focusreader-banner {
 	height: 15px;
 	padding:5px;
 	font-size:10px;
-	font-weight:bold;
-	position:fixed;
-	right:0;
-	bottom:0;
-	-webkit-border-radius:5px;
-	border-top: 1px solid #333;
-	text-align: center;
-	background:#333;
+	border-bottom: 1px solid #333;
+	text-align: right;
 }
-#readFooter a {
+#focusreader-banner a {
 	color:#eee;
-	line-height:1.2em;
 	text-decoration:none;
 	display:block;
 }
