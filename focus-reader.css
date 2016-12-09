@@ -5,21 +5,40 @@
 	left: 0;
 	width: 100%;
 }
-#readInner {
+#readInner, #focusreader-banner {
 	text-align: left;
-	line-height: 1.4em;
-	margin: 1em auto;
+	margin: 0 auto;
 }
-.mobile #readInner {
+.mobile #readInner, .mobile #focusreader-banner {
 	max-width:300px;
 	overflow:hidden;
+}
+#focusreader-banner {
+	border-bottom: 1px solid #eee;
+  padding: 6px 0;
+}
+#focusreader-banner > span {
+  display: block;
+}
+#focusreader-banner .fleft {
+  float: left;
+  color: #999;
+}
+#focusreader-banner .fright {
+  float: right;
+}
+
+#focusreader-banner a, #focusreader-banner span {
+	color:#333;
+	font-size:11px;
+  line-height: 11px;
 }
 #readInner a {
 	color: blue;
 	text-decoration: underline;
 }
 #readInner * {
-	margin-bottom: 16px;
+	margin-bottom: 30px; /* shold be >= .focusreader-size font-size */
 	border: none;
 	background: none;
 }
@@ -53,8 +72,9 @@
 #readInner h1 {
 	display: block;
 	width: 100%;
-	border-bottom: 1px solid #333;
-	font-size: 1.2em;
+	font-size: 2em;
+  line-height: 1.1em;
+  font-weight: 900;
 }
 #readInner blockquote {
 	margin:0 !important;
@@ -66,47 +86,28 @@
 	width:100%;
 	clear:both;
 }
-#focusreader-banner {
-	font-size:10px;
-	border-bottom: 1px solid #333;
-	text-align: right;
-}
-#focusreader-banner a {
-	color:#333;
-}
 /* Causing problems with BBC 
 th,td {white-space: nowrap !important;padding:2px 5px !important;}
 */
-/* Size options */
 
-.size-small {
-	font-size: 12px;
-}
-.size-medium {
-	font-size: 18px;
-}
-.size-midlarge {
-	font-size: 20px;
-}
-.size-large {
+.focusreader-size {
 	font-size: 26px;
+  line-height: 38px;
 }
-.size-x-large {
-	font-size: 34px;
-}
-/* Style options */
 
-.style-ebook {
+.focusreader-style {
 	font-family: "Helvetica Neue", Arial, sans-serif;
-	background: rgba(0,0,0,0.008); /* almost white */
+	background: #fff;
 	color: rgba(0,0,0,0.8);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.189px;
 }
-.style-ebook h1 {
+
+.focusreader-style h1 {
 	font-weight: bold;
 }
-/* Margin Options */
 
-.ems {
+.focusreader-width {
   min-width: 25em;
-  max-width: 33em;
+  max-width: 32em;
 }

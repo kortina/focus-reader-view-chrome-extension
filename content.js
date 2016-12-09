@@ -1,9 +1,9 @@
 // content.js has access to DOM
 var FocusReader = {};
 FocusReader.readabilityVersion = "3";
-FocusReader.readStyle='style-ebook';
-FocusReader.readSize='size-large';
-FocusReader.readWidth='ems';
+FocusReader.readStyle='focusreader-style';
+FocusReader.readSize='focusreader-size';
+FocusReader.readWidth='focusreader-width';
 
 // background.js:chrome.pageAction.onClicked calls this function
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
@@ -31,6 +31,14 @@ FocusReader.registerShortcutListener = function(reregister) {
 
 FocusReader.registerShortcutListener(false);
 
+/*
+ * port of the pure js readability 
+ * with lots of modifications
+ * via http://brettterpstra.com/2009/11/03/clippable/
+ * see: https://github.com/masukomi/ar90-readability
+ * see: https://github.com/mozilla/readability
+ */
+
 function focusReaderMain(){
   console.log('focusReaderMain');
   var scripts = document.getElementsByTagName('script');
@@ -53,6 +61,10 @@ function focusReaderMain(){
   overlay.className = FocusReader.readStyle;
   inner.className = FocusReader.readWidth + " " + FocusReader.readSize;
 
+  var banner = focusReaderBanner();
+  banner.className = FocusReader.readWidth + " " + FocusReader.readSize;
+  overlay.appendChild(banner);
+
   inner.appendChild(grabArticle());
   overlay.appendChild(inner);
 
@@ -64,6 +76,14 @@ function focusReaderMain(){
 
   document.body.insertBefore(overlay, document.body.firstChild);
   return document.body.firstChild.innerHTML;
+};
+
+function focusReaderBanner() {
+  var articleBanner = document.createElement("DIV");
+  // Add the footer and contents:
+  articleBanner.id = "focusreader-banner";
+  articleBanner.innerHTML = "<span class='fleft'>"+document.location+"</span><span class='fright'><a href='https://kortina.net/'>kortina.net</a><span> Focus Reader</span></span><span style='clear:both;'></span>";
+  return articleBanner;
 };
 
 function getElementsByClassName(classname, node)  {
@@ -85,7 +105,6 @@ function grabArticle() {
 
   var articleContent = document.createElement("DIV");
   var articleTitle = document.createElement("H1");
-  var articleBanner = document.createElement("DIV");
 
   // Replace all doubled-up <BR> tags with <P> tags, and remove fonts.
   var pattern =  new RegExp ("<br/?>[ \r\n\s]*<br/?>", "g");
@@ -190,12 +209,8 @@ function grabArticle() {
   topDiv = clean(topDiv, "iframe");
 
 
-  // Add the footer and contents:
-  articleBanner.id = "focusreader-banner";
-  articleBanner.innerHTML = "<a href='https://kortina.net/'>kortina.net</a> mod of readability";
 
   articleContent.appendChild(topDiv);
-  articleContent.insertBefore(articleBanner, articleContent.firstChild);
   return articleContent;
 }
 
