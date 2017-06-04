@@ -5,7 +5,7 @@ https://github.com/kortina/focus-reader-view-chrome-extension/issues
 
 #### Download here
 
-__ LINK __
+https://chrome.google.com/webstore/detail/focus-reader-view/fbhngbllhjggfpkeeiddgkkliacmegin
 
 #### Detail description
 
