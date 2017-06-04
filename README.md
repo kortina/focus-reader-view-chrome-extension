@@ -7,7 +7,7 @@ https://github.com/kortina/focus-reader-view-chrome-extension/issues
 
 https://chrome.google.com/webstore/detail/focus-reader-view/fbhngbllhjggfpkeeiddgkkliacmegin
 
-#### Detail description
+#### Detailed description
 
 Distraction-free reading view like Safari Reader View, Readability, or Chromium Distiller DOM.
 
