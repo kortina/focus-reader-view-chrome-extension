@@ -1,0 +1,8 @@
+#!/usr/bin/env osascript
+
+try
+    tell application "Finder" to set b to bounds of window of desktop
+        tell application "Google Chrome"
+            set bounds of window 1 to {0, 0, 1280, 800}
+        end tell
+end try
