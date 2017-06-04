@@ -3,7 +3,7 @@
 
     "name": "Focus Reader View",
     "description": "Distraction-free reading view like Safari Reader View, Readability, or Chromium Distiller DOM.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "background": { "scripts": ["background.js"] },
     "icons": {
         "16": "images/focus-reader-view16.png",
